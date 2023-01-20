@@ -1,0 +1,43 @@
+*{
+  font-size: 26px;
+}
+
+h1{
+  text-align: center;
+  font-size: 32px;
+}
+#btn-novo{
+margin-left: 80%;
+margin-bottom: 2%;
+}
+
+td{
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
+  
+.demo-toggles {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-toggles * {
+  margin-bottom: 16px;
+}
+
+.demo-options {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.demo-data * {
+  margin: 16px 0;
+}
+
+.demo-paginator {
+  width: 600px;
+}

@@ -1,0 +1,40 @@
+import { Component } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import Usuario from '../../model/Usuario';
+import { UsuarioService } from '../../service/usuario.service';
+
+@Component({
+  selector: 'app-add-usuario',
+  templateUrl: './add-usuario.component.html',
+  styleUrls: ['./add-usuario.component.css']
+})
+export class AddUsuarioComponent{
+
+  constructor(
+    private usuarioService: UsuarioService,
+    private formBuilder: FormBuilder,
+    private route: Router
+  ) {}
+
+  addUsuarioForm = this.formBuilder.group({
+    nome: '',
+    email: '',
+    senha: '',
+  });
+
+  onSubmit() {
+    // Aqui vamos enviar os dados para backend.
+    // Interações com camadas de dados devem ser feitas pelo service.
+    const usuario = new Usuario(
+      this.addUsuarioForm.value.nome ?? '',
+      this.addUsuarioForm.value.email ?? '',
+      this.addUsuarioForm.value.senha ?? '',
+    );
+    this.usuarioService.adicionarUsuario(usuario).subscribe((retorno) => {
+      console.log(retorno);
+      this.route.navigate(['/login']);
+    });
+  }
+
+}

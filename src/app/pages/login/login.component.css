@@ -1,0 +1,24 @@
+#container {
+    border: 1px solid black;
+    border-radius: 40px;
+    padding: 20px;
+    width: 30%;
+    height: 40%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.5rem;
+}
+
+#login-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-mat-form-field{
+    width:80%
+}

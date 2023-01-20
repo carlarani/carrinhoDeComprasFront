@@ -1,0 +1,23 @@
+
+
+<div id="container">
+  <h1>Login</h1>
+  
+  <form id="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="login-mat-form-field">
+        <mat-label for="email"> Email </mat-label>
+        <input matInput type="text" id="email" formControlName="email"/>
+      </mat-form-field>
+    
+      <mat-form-field class="login-mat-form-field">
+        <mat-label for="senha"> Senha </mat-label>
+        <input matInput type="password" id="senha" formControlName="senha"/>
+      </mat-form-field>
+    
+      <!-- <button class="button" type="submit">Entrar</button> -->
+      <button mat-stroked-button type="submit">Entrar</button>
+    </form>
+  <br>
+    <p> Ainda não é cadastrado?<br>Cadastre-se <a href="/cadastro">aqui</a></p>
+</div>
+

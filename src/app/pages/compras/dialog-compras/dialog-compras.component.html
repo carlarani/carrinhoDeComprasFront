@@ -1,0 +1,47 @@
+<h1>{{dialogTitle}}</h1>
+
+<p> {{dialogSubTitle}} </p>
+
+<table *ngIf="comprasProdutosDisplay.length>0">
+    <thead>
+        <th>Produtos</th>
+        <th>Quantidade</th>
+        <th>Subtotal</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let compraProdutoDisplay of comprasProdutosDisplay">
+            <td>{{compraProdutoDisplay.nome}}</td>
+            <td><input [min]="1" [max]="compraProdutoDisplay.quantidade" type="number" (change)="atualizarCompraProduto(compraProdutoDisplay)" [(ngModel)]="compraProdutoDisplay.quantidadeSelecionada"></td>
+            <td>{{compraProdutoDisplay.preco*compraProdutoDisplay.quantidadeSelecionada | currency:'BRL'}}</td>
+            <td><button (click)="deletarProdutoCompra(compraProdutoDisplay.id)" mat-button>
+                <mat-icon>
+                    cancel
+                </mat-icon>
+            </button></td>
+        </tr>
+        <tr>
+            <td [colSpan]="2">Total</td>
+            <td>{{valorTotal | currency:'BRL'}}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<button mat-button *ngIf="comprasProdutosDisplay.length>0">Confirmar</button>
+<button mat-button (click)="LimparCarrinho()" *ngIf="comprasProdutosDisplay.length>0">Limpar Carrinho</button>
+<button mat-button mat-dialog-close>{{closeButtonText}}</button>
+
+<!-- <table mat-table class="mat-elevation-z8" id="table-all" matSort>
+
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> E-mail </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+</table> -->

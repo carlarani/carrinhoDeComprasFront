@@ -1,0 +1,45 @@
+<h1>Loja</h1>
+<!-- <button id="btn-novo" mat-raised-button  (click)="OnAddClick()">Novo</button> -->
+<button id="btn-finalizar-compra" type="submit" mat-raised-button align="end"(click)="abrirCarrinho()">
+  <mat-icon>
+    shopping_cart
+  </mat-icon></button>
+
+<div>
+  <input matInput id="filtro" [(ngModel)]="ProdutoFiltro" (keyup)="filterFn()" placeholder="Pesquise...">
+</div>
+
+
+
+<div class="cards">
+  <mat-card class="card" *ngFor="let compraProdutoDisplay of listaCompraProdutoDisplayComFiltro">
+    <mat-card-header>
+      <mat-card-title>{{compraProdutoDisplay.nome}}</mat-card-title>
+      <mat-card-subtitle>Estoque: {{compraProdutoDisplay.quantidade}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Preço: {{compraProdutoDisplay.preco | currency:'BRL' }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="bloco-btn-qtd" align="end">
+      <button *ngIf="compraProdutoDisplay.quantidadeSelecionada>0" (click)="Remove(compraProdutoDisplay)" mat-button >
+        <mat-icon style="color: purple">remove</mat-icon>  
+      </button>
+      <div id="div-qtd" *ngIf="compraProdutoDisplay.quantidadeSelecionada>0" >
+        <input mat-input id="quantidadeSelecionada" [(ngModel)]="compraProdutoDisplay.quantidadeSelecionada" type="number" disabled>
+      </div>
+      <button (click)="Add(compraProdutoDisplay)" mat-button>
+      <mat-icon style="color: purple">add</mat-icon>  
+    </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div>
+  <p>Vendo: {{paginaSelecionada*20}} / Total de itens: {{ultimaPagina*20 | number:'1.0-0'}}</p>
+  <button *ngIf="paginaSelecionada<ultimaPagina" (click)="AddPg()">Ver mais...</button>
+</div>
+
+<router-outlet></router-outlet>
+

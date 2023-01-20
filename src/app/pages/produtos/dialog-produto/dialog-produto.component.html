@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>{{dialogTitle}}</h1>
+  <div class="example-container">
+    <form class="dialog-form" [formGroup]="addProdutoForm">
+      <div *ngIf="data.disableForm" class="dialog-form-100">
+        <mat-form-field class="dialog-form-100" appearance="fill">
+          <mat-label>Id</mat-label>
+          <input matInput formControlName="id" [(ngModel)]="data.produto.id">
+        </mat-form-field>
+      </div>
+        <div class="dialog-form-100">
+          <mat-form-field class="dialog-form-100" appearance="fill">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" [(ngModel)]="data.produto.nome">
+          </mat-form-field>
+        </div>
+        <div class="dialog-form-100">
+          <mat-form-field class="dialog-form-100" appearance="fill">
+            <mat-label>Quantidade em estoque</mat-label>
+            <input matInput formControlName="quantidade" [(ngModel)]="data.produto.quantidade">
+          </mat-form-field>
+        </div>
+        <div class="dialog-form-100">
+        <mat-form-field class="dialog-form-100" appearance="fill">
+          <mat-label>Preço</mat-label>
+          <input matInput formControlName="preco" [(ngModel)]="data.produto.preco">
+        </mat-form-field>
+      </div>
+      <div class="dialog-form-100">
+        <mat-form-field class="dialog-form-100" appearance="fill">
+          <mat-label>IdVendedor</mat-label>
+          <input matInput formControlName="idVendedor" [(ngModel)]="data.produto.idVendedor">
+        </mat-form-field>
+        </div>
+    </form>
+  </div>
+<div mat-dialog-actions>
+  <button *ngIf="!data.disableForm" mat-stroked-button (click)="salvar()" color="primary">Salvar</button>
+  <button mat-button mat-dialog-close>Close</button>
+</div>
