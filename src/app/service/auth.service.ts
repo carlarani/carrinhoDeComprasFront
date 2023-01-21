@@ -10,56 +10,55 @@ export class AuthService {
   token = localStorage.getItem("Xtoken") ?? '';
 
   constructor(private http: HttpClient, private router: Router) { }
-  
+
   buildHeaders = () =>
-  new HttpHeaders().set('token', localStorage.getItem('Xtoken') ?? '');
+    new HttpHeaders().set('token', localStorage.getItem('Xtoken') ?? '');
 
-validaLogin = (token: string) =>
-  this.http.post(
-    'http://localhost:5000/api/Usuario/valida',
-    {token},
-    {
-      headers: this.buildHeaders(),
-      observe: 'response',
+  validaLogin = (token: string) =>
+    this.http.post(
+      'http://localhost:5000/api/Usuario/valida',
+      { token },
+      {
+        headers: this.buildHeaders(),
+        observe: 'response',
+      }
+    );
+
+  canActivate(route: ActivatedRouteSnapshot) {
+    // Escrevemos uma função que retorne verdadeiro ou falso.
+    // Retornando verdadeiro, a rota pode ser acessada.
+    // Retornando falso, não.
+
+    if (!this.token) {
+      this.router.navigate(['/login']);
     }
-  );
 
-canActivate(route: ActivatedRouteSnapshot) {
-  // Escrevemos uma função que retorne verdadeiro ou falso.
-  // Retornando verdadeiro, a rota pode ser acessada.
-  // Retornando falso, não.
-
-  if (!this.token) {
-    this.router.navigate(['/login']);
+    this.validaLogin(this.token).subscribe({
+      next: (retorno) => {
+        console.log(retorno);
+        // Aqui colocamos a lógica de validação de permissões.
+      },
+      error: (error) => {
+        if (error.status == 500)
+          this.deslogar()
+        if (error.status == 200) {
+          console.log((error as any).body);
+          if (
+            route.url[0].path.includes('usuarios') &&
+            (error as any).body.role != 'admin'
+          ) {
+            this.router.navigate(['/home']);
+          }
+        }
+        else {
+          console.log(error)
+        }
+      }
+    })
   }
 
-  this.validaLogin(this.token).subscribe({
-    next: (retorno) => {
-    console.log(retorno);
-    // Aqui colocamos a lógica de validação de permissões.
-  }, 
-  error: (error) => 
-  {
-    if(error.status==500)
-    this.deslogar()
-    if(error.status==200)
-    {
-      if (
-        route.url[0].path.includes('usuarios') &&
-        (error as any).body.permissao != 'admin'
-      ) {
-        this.router.navigate(['/home']);
-      }
-    }
-    else{
-      console.log(error)
-    }
-    }
-})
-}
-
-login = (email: string, senha: string) =>
-  this.http.post('http://localhost:5000/api/Usuario/login', { email, senha });
+  login = (email: string, senha: string) =>
+    this.http.post('http://localhost:5000/api/Usuario/login', { email, senha });
 
 
   persistToken(token: string, user: string) {
@@ -67,7 +66,7 @@ login = (email: string, senha: string) =>
     console.log(token);
     console.log("user");
     console.log(user);
-    
+
     // if(localStorage.getItem("token"))
     //   localStorage.removeItem("token")
     localStorage.setItem("Xtoken", token);
@@ -78,7 +77,7 @@ login = (email: string, senha: string) =>
     return this.token;
   }
 
-  deslogar(){
+  deslogar() {
     localStorage.clear();
     this.router.navigate(["/login"])
   }

@@ -1,16 +1,15 @@
-<p>
-    <mat-toolbar color="primary">
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="takeHome()">
-        <mat-icon>home</mat-icon>
-      </button>
-      <span id="header-titulo">[Nome da aplicação]</span>
-      <span class="example-spacer"></span>
-      <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+<mat-toolbar id="header-container">
+  <button *ngIf="!IsLogin" mat-icon-button aria-label="Example icon-button with menu icon" (click)="takeHome()">
+    <mat-icon>home</mat-icon>
+  </button>
+  <span class="example-spacer"></span>
+  <span id="header-titulo">Ada's Shop</span>
+  <span class="example-spacer"></span>
+  <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
         <mat-icon>shopping</mat-icon>
       </button> -->
-      <button mat-icon-button (click)="deslogar()" class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon >logout</mat-icon>
-      </button>
-    </mat-toolbar>
-  </p>
-  
+  <button *ngIf="!IsLogin" mat-icon-button (click)="deslogar()" class="example-icon"
+    aria-label="Example icon-button with share icon">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>

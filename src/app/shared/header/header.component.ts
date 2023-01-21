@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 
@@ -7,14 +7,30 @@ import { AuthService } from 'src/app/service/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
-  constructor(private route: Router, private authService: AuthService){}
+export class HeaderComponent implements OnInit {
 
-  takeHome(){
+  IsLogin: boolean = false;
+
+
+  constructor(private route: Router, private authService: AuthService) {
+
+  }
+
+  ngOnInit() {
+    if (window.location.href.includes('login') || window.location.href.includes('cadastro')) {
+      console.log(window.location.href);
+      this.IsLogin = true;
+    } else {
+      this.IsLogin = false;
+    }
+  }
+
+
+  takeHome() {
     this.route.navigate(['/home']);
   }
 
-  deslogar(){
+  deslogar() {
     this.authService.deslogar();
   }
 

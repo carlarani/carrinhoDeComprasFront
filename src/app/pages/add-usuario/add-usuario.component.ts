@@ -9,13 +9,13 @@ import { UsuarioService } from '../../service/usuario.service';
   templateUrl: './add-usuario.component.html',
   styleUrls: ['./add-usuario.component.css']
 })
-export class AddUsuarioComponent{
+export class AddUsuarioComponent {
 
   constructor(
     private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
     private route: Router
-  ) {}
+  ) { }
 
   addUsuarioForm = this.formBuilder.group({
     nome: '',
@@ -24,17 +24,28 @@ export class AddUsuarioComponent{
   });
 
   onSubmit() {
-    // Aqui vamos enviar os dados para backend.
-    // Interações com camadas de dados devem ser feitas pelo service.
     const usuario = new Usuario(
       this.addUsuarioForm.value.nome ?? '',
       this.addUsuarioForm.value.email ?? '',
       this.addUsuarioForm.value.senha ?? '',
     );
-    this.usuarioService.adicionarUsuario(usuario).subscribe((retorno) => {
-      console.log(retorno);
-      this.route.navigate(['/login']);
-    });
+    //checar uso do email
+    this.usuarioService.obterUsuarios().subscribe((data) => {
+      let usuarios = data;
+      let check = usuarios.find(x => x.email == usuario.email)
+      if (check != undefined) {
+        alert("Email já em uso");
+      } else {
+        // Aqui vamos enviar os dados para backend.
+        // Interações com camadas de dados devem ser feitas pelo service.
+        this.usuarioService.adicionarUsuario(usuario).subscribe((retorno) => {
+          alert("Usuário adicionado com sucesso!")
+          this.route.navigate(['/login']);
+        });
+      }
+    }
+    )
+
   }
 
 }

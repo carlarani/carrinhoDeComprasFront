@@ -1,19 +1,23 @@
-<h3>Cadastro</h3>
+<div id="container">
 
-<form  [formGroup]="addUsuarioForm" (ngSubmit)="onSubmit()">
-    <div>
-        <label for="nome"> Nome </label>
-        <input type="text" id="nome" formControlName="nome" />
-      </div>
-    <div>
-      <label for="email"> Email </label>
-      <input type="text" id="email" formControlName="email" />
-    </div>
-  
-    <div>
-      <label for="senha"> Senha </label>
-      <input type="password" id="senha" formControlName="senha" />
-    </div>
-  
-    <button class="button" type="submit">Criar conta</button>
+  <h1>Cadastro</h1>
+
+  <form id="cadastro-form" [formGroup]="addUsuarioForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="cadastro-mat-form-field">
+      <mat-label for="nome"> Nome </mat-label>
+      <input matInput type="text" id="nome" formControlName="nome" />
+    </mat-form-field>
+    <mat-form-field class="cadastro-mat-form-field">
+      <mat-label for="email"> Email </mat-label>
+      <input matInput type="email" id="email" formControlName="email" />
+    </mat-form-field>
+
+    <mat-form-field class="cadastro-mat-form-field">
+      <mat-label for="senha"> Senha </mat-label>
+      <input matInput type="password" id="senha" formControlName="senha" />
+    </mat-form-field>
+
+    <button color="secondary" mat-stroked-button type="submit">Criar conta</button>
   </form>
+
+</div>

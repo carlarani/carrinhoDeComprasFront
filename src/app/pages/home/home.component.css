@@ -1,0 +1,10 @@
+mat-toolbar {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
