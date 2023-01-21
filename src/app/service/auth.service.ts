@@ -35,24 +35,13 @@ export class AuthService {
 
     this.validaLogin(this.token).subscribe({
       next: (retorno) => {
-        console.log(retorno);
         // Aqui colocamos a lógica de validação de permissões.
+        localStorage.setItem("role", (retorno as any).body.role);
+
       },
       error: (error) => {
         if (error.status == 500)
           this.deslogar()
-        if (error.status == 200) {
-          console.log((error as any).body);
-          if (
-            route.url[0].path.includes('usuarios') &&
-            (error as any).body.role != 'admin'
-          ) {
-            this.router.navigate(['/home']);
-          }
-        }
-        else {
-          console.log(error)
-        }
       }
     })
   }

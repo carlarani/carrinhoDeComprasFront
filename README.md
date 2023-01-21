@@ -2,9 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
 
-## Development server
+## Informações úteis
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Design de inspiração : https://www.figma.com/file/8uovzyDAjeEB6MsHv0RrzH/Landing-Page%3A-%23LaylaMoNow!-(Community)?node-id=38%3A48&t=SWFyY1iEHsRpvVPu-0
 
 ## Code scaffolding
 
