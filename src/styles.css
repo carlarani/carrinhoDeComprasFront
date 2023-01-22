@@ -23,7 +23,7 @@ body {
     left: 0px;
     top: 0px;
     z-index: -1;
-    background-image: url(src\app\media\groceries-bag-1.jpg);
+    background-image: url(src\assets\media\groceries-bag-1.jpg);
 }
 
 #grad-background {

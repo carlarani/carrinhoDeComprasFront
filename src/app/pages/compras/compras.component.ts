@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Guid } from 'guid-typescript';
@@ -36,7 +37,7 @@ export class ComprasComponent {
 
   paginaSelecionada: number = 1;
   ultimaPagina!: number;
-  resultadosPorPágina: number = 100;
+  resultadosPorPágina: number = 50;
   paginaAtual!: number;
 
   constructor(
@@ -45,6 +46,7 @@ export class ComprasComponent {
     private compraProdutoService: CompraProdutoService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogComprasComponent>,
+    private route: Router
   ) {
 
   }
@@ -63,6 +65,7 @@ export class ComprasComponent {
     this.compra = new Compra(0, idComprador ? idComprador : "");
     this.compraService.adicionarCompra(this.compra).subscribe(data =>
       console.log("Compra iniciada com sucesso"));
+    localStorage.setItem("compra", this.compra.id);
     return this.compra;
   }
 
@@ -142,6 +145,7 @@ export class ComprasComponent {
   }
 
   Add(compraProdutoDisplay: CompraProdutoDisplay) {
+    this.checarSeCompraStatusERascunho();
     //mudar valor de quantidade selecionada
     compraProdutoDisplay.quantidadeSelecionada++;
     //checar se a quantidade selecionada é maior que o estoque
@@ -149,10 +153,10 @@ export class ComprasComponent {
       alert("Quantidade indisponível!");
       compraProdutoDisplay.quantidadeSelecionada = compraProdutoDisplay.quantidade
     }
-
-
-    //chamar montar entidade ProdutoCompra
-    this.checarCompraProdutoExiste(compraProdutoDisplay); //tenho a entidade compra produto já verificada se existe entidade (id produto) naquela compra )idCompra.
+    else {
+      //chamar montar entidade ProdutoCompra
+      this.checarCompraProdutoExiste(compraProdutoDisplay); //tenho a entidade compra produto já verificada se existe entidade (id produto) naquela compra )idCompra.
+    }
   }
 
   checarCompraProdutoExiste(compraProdutoDisplay: CompraProdutoDisplay) {
@@ -184,6 +188,7 @@ export class ComprasComponent {
   }
 
   Remove(compraProdutoDisplay: CompraProdutoDisplay) {
+    this.checarSeCompraStatusERascunho();
 
     --compraProdutoDisplay.quantidadeSelecionada;
 
@@ -253,6 +258,7 @@ export class ComprasComponent {
 
 
   abrirCarrinho() {
+    this.checarSeCompraStatusERascunho();
 
     this.compraProdutoService.obterCompraProdutos().subscribe((data) => {
       this.comprasProdutos = data;
@@ -283,7 +289,6 @@ export class ComprasComponent {
       idComprador: idComprador ? idComprador : "",
       status: "Rascunho"
     };
-    localStorage.setItem("compra", this.compra.id);
     this.compraService.editarCompra(this.compra);
     this.openDialog();
   }
@@ -319,4 +324,22 @@ export class ComprasComponent {
     }
     )
   }
+
+  checarSeCompraStatusERascunho() {
+    let compraId = localStorage.getItem("compra");
+    this.compraService.obterCompra(compraId).subscribe(data => {
+      let compra = data;
+      console.log(compra.status);
+      console.log(data.status);
+      if (compra.status != "Rascunho") {
+        alert("Esta compra não permite mais edições");
+        if (confirm("Deseja iniciar nova compra?")) {
+          window.location.reload()
+        } else {
+          this.route.navigate(["/home"]);
+        }
+      }
+    })
+  }
+
 }
