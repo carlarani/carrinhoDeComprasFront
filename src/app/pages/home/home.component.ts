@@ -7,8 +7,25 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   role?: string;
+  blocoComprador: boolean = false;
+  blocoVendedor: boolean = false;
+  blocoAdmin: boolean = false;
+
+  constructor() {
+    this.role = localStorage.getItem("role") ?? "";
+  }
 
   ngOnInit() {
-    this.role = localStorage.getItem("role") ?? "";
+    setInterval(() => {
+      if (this.role == "comprador") {
+        this.blocoComprador = true
+      } else if (this.role == "vendedor") {
+        this.blocoVendedor == true;
+      } else if (this.role == "admin") {
+        this.blocoAdmin = true;
+        this.blocoVendedor = true;
+        this.blocoComprador = true
+      }
+    }, 3000)
   }
 }

@@ -1,16 +1,17 @@
 <div class="container">
     <mat-toolbar>
-        <div *ngIf="role=='comprador' || role=='admin'"> <!--Bloco de Menu para o comprador--->
+        <div *ngIf="blocoComprador"> <!--Bloco de Menu para o comprador--->
             <a mat-button routerLink="/loja" routerLinkActive="router-link-active">Loja</a>
-            <a mat-button routerLink="/minhaConta">Minha Conta</a>
+            <a mat-button routerLink="/minhaConta" routerLinkActive="router-link-active">Minha Conta</a>
         </div>
         <span class="example-spacer"></span>
-        <div *ngIf="role=='vendedor' || role=='admin'"><!--Bloco de Menu para o vendedor--->
-            <a mat-button routerLink="/produtos" routerLinkActive="router-link-active">Gerenciar Produtos</a>
+        <div><!--Bloco de Menu para o vendedor--->
+            <a *ngIf="blocoVendedor" mat-button routerLink="/produtos" routerLinkActive="router-link-active">Gerenciar
+                Produtos</a>
             <!-- <a mat-button routerLink="/compras">Gerenciar Compras</a> -->
-        </div>
-        <div *ngIf="role=='admin'"><!--Bloco de Menu para o admin--->
-            <a mat-button routerLink="/usuarios" routerLinkActive="router-link-active">Gerenciar Usuários</a>
+            <!--Bloco de Menu para o admin--->
+            <a *ngIf="blocoAdmin" mat-button routerLink="/usuarios" routerLinkActive="router-link-active">Gerenciar
+                Usuários</a>
         </div>
     </mat-toolbar>
 </div>

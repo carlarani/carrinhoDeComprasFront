@@ -2,6 +2,7 @@
   background-color: transparent;
   color: antiquewhite;
   padding: 50px 100px;
+  z-index: 0;
 }
 
 .example-spacer {

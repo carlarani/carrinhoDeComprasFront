@@ -32,6 +32,11 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.validate();
+  }
+
+
+  private validate() {
     let Xtoken = localStorage.getItem("Xtoken");
     console.log(Xtoken);
 
@@ -48,9 +53,8 @@ export class LoginComponent implements OnInit {
 
       }
     }
-    )
+    );
   }
-
 
   onSubmit() {
     this.authService.login(
@@ -59,14 +63,12 @@ export class LoginComponent implements OnInit {
     ).subscribe({
       next: (retorno) => {
         this.authService.persistToken((retorno as any).token, (retorno as any).user);
-        this.route.navigate(["/home"]);
+        this.validate();
       },
       error: (error) => {
         this.hasError = true;
         if (error.status == 404)
           alert("Usuário e/ou senha inválidos");
-        if (error.status == 200)
-          this.route.navigate(["/home"]);
 
       }
     }
