@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
     ).subscribe({
       next: (retorno) => {
         this.authService.persistToken((retorno as any).token, (retorno as any).user);
-        this.validate();
+        this.route.navigate(["/home"]);
       },
       error: (error) => {
         this.hasError = true;

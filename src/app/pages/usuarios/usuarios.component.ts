@@ -67,14 +67,13 @@ export class UsuariosComponent {
   OnDeleteClick(usuario: any) {
 
     if (confirm("Tem certeza que deseja deletar item?")) {
-
+      this.usuarioService.deletarUsuario(usuario.id)
+        .subscribe((data: any) => {
+          alert("Item removido com sucesso!");
+          return data = this.carregarTabelaUsuarios();
+        }
+        )
     }
-    this.usuarioService.deletarUsuario(usuario.id)
-      .subscribe((data: any) => {
-        alert("Item removido com sucesso!");
-        return data = this.carregarTabelaUsuarios();
-      }
-      )
   }
 
   OpenDialog(usuario: any) {
