@@ -42,7 +42,8 @@
   </div>
 
   <div>
-    <p>Página: {{paginaAtual}} / {{ultimaPagina |
+    <p>Página: {{paginaAtual |
+      number:'1.0-0'}} / {{ultimaPagina |
       number:'1.0-0'}}
     </p>
     <button mat-button *ngIf="paginaSelecionada<ultimaPagina" (click)="AddPg()">Ver mais...</button>

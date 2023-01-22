@@ -30,7 +30,6 @@ export class DialogComprasComponent implements OnInit {
   compraProdutoDisplay!: CompraProdutoDisplay;
   comprasProdutosDisplay: CompraProdutoDisplay[] = [];
   produto!: Produto;
-  valorTotal!: number;
   closeButtonText: string = "Iniciar as compras";
 
 
@@ -45,7 +44,7 @@ export class DialogComprasComponent implements OnInit {
 
   ngOnInit() {
     // console.log("INIT");
-
+    this.data.compra.valorTotal = 0;
     this.buscarNomeUsuario();
     this.buscarProdutosDaCompra();
   }
@@ -77,7 +76,10 @@ export class DialogComprasComponent implements OnInit {
     this.produtoCompraService.obterCompraProdutosPorIdCompra(this.data.compra.id).subscribe((data => {
       this.compraProdutosDessaCompra = data;
       this.montarEntidadeCompraProdutoDisplay(this.compraProdutosDessaCompra);
-      return this.compraProdutosDessaCompra;
+      this.compraProdutosDessaCompra.forEach(x =>
+        this.data.compra.valorTotal += x.subtotal
+      );
+      return this.data.compra.valorTotal;
     }))
   }
 
@@ -98,7 +100,6 @@ export class DialogComprasComponent implements OnInit {
           subtotal: compraProduto.subtotal,
 
         }
-        this.valorTotal += compraProduto.subtotal;
         this.comprasProdutosDisplay.push(this.compraProdutoDisplay);
         this.montarSubTitulo();
         console.log(this.compraProdutoDisplay);
@@ -118,6 +119,7 @@ export class DialogComprasComponent implements OnInit {
   limpaDialog() {
     this.compraProdutosDessaCompra = [];
     this.comprasProdutosDisplay = [];
+    this.data.compra.valorTotal = 0;
     this.atualizarDialog();
   }
 
@@ -140,6 +142,7 @@ export class DialogComprasComponent implements OnInit {
     }
     this.produtoCompraService.editarCompraProduto(compraProduto).subscribe(data => {
       console.log("Item atualizado com sucesso");
+      this.limpaDialog();
     }
     )
   }
@@ -150,7 +153,10 @@ export class DialogComprasComponent implements OnInit {
       let produtosCompra = data;
       produtosCompra.forEach((produtoCompra: CompraProduto) => {
         this.produtoCompraService.deletarCompraProduto(produtoCompra.id).subscribe(
-          data => console.log("Item deletado")
+          data => {
+            console.log("Item deletado")
+            this.limpaDialog()
+          }
         )
 
       })
@@ -203,6 +209,7 @@ export class DialogComprasComponent implements OnInit {
       })
     })
   }
+
 }
 
 

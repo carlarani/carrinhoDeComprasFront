@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   role?: string;
   blocoComprador: boolean = false;
   blocoVendedor: boolean = false;
@@ -16,18 +16,19 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    if (this.blocoComprador == false && this.blocoVendedor == false && this.blocoAdmin == false) {
-      setInterval(() => {
-        if (this.role == "comprador") {
-          this.blocoComprador = true
-        } else if (this.role == "vendedor") {
-          this.blocoVendedor == true;
-        } else if (this.role == "admin") {
-          this.blocoAdmin = true;
-          this.blocoVendedor = true;
-          this.blocoComprador = true
-        }
-      }, 1000)
-    }
+    console.log(this.role);
+
+    setInterval(() => {
+      if (this.role == "comprador") {
+        this.blocoComprador = true
+      } else if (this.role == "vendedor") {
+        this.blocoVendedor = true;
+      } else if (this.role == "admin") {
+        this.blocoAdmin = true;
+        this.blocoVendedor = true;
+        this.blocoComprador = true
+      }
+    }, 3000)
   }
 }
+

@@ -6,7 +6,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ProdutosComponent } from './pages/produtos/produtos.component';
-import { DetalheUsuarioComponent } from './pages/usuarios/detalhe-usuario/detalhe-usuario.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { AuthService } from './service/auth.service';
 
@@ -44,10 +43,6 @@ const routes: Routes = [
   {
     path: "loja",
     component: ComprasComponent
-  },
-  {
-    path: "minhaConta", 
-    component: DetalheUsuarioComponent,
   },
   {
     path: "**",

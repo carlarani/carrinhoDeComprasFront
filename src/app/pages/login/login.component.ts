@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   token: string = "";
   user: string = "";
   hasError: boolean = false;
+  validated: boolean = false;
 
 
   constructor(
@@ -32,7 +33,11 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.validate();
+    while (!this.validated) {
+      setInterval(() => {
+        this.validate();
+      }, 6000)
+    }
   }
 
 
@@ -43,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.token = (Xtoken != null) ? Xtoken : "";
     this.authService.validaLogin(this.token).subscribe({
       next: (retorno) => {
-        // console.log(retorno);
+        this.validated = true;
         this.route.navigate(["/home"]);
       },
       error: (error) => {

@@ -13,6 +13,7 @@ import { ProdutoService } from 'src/app/service/produto.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { DialogProdutoComponent } from '../produtos/dialog-produto/dialog-produto.component';
 import { DialogComprasComponent } from './dialog-compras/dialog-compras.component';
+import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-compras',
@@ -37,7 +38,7 @@ export class ComprasComponent {
 
   paginaSelecionada: number = 1;
   ultimaPagina!: number;
-  resultadosPorPágina: number = 50;
+  resultadosPorPágina: number = 40;
   paginaAtual!: number;
 
   constructor(
@@ -215,6 +216,8 @@ export class ComprasComponent {
     if (IsEditMode) {
       this.compraProdutoService.obterCompraProduto(idCompraProduto).subscribe(data => {
         this.compraProduto = data;
+        this.compraProduto.quantidadeSelecionada = compraProdutoDisplay.quantidadeSelecionada;
+        this.compraProduto.subtotal = compraProdutoDisplay.quantidadeSelecionada * compraProdutoDisplay.preco;
         return this.compraProduto
       });
     }
@@ -224,19 +227,18 @@ export class ComprasComponent {
         idProduto: compraProdutoDisplay.idProduto,
         idCompra: compraProdutoDisplay.idCompra,
         quantidadeSelecionada: compraProdutoDisplay.quantidadeSelecionada,
-        subtotal: compraProdutoDisplay.subtotal
+        subtotal: compraProdutoDisplay.quantidadeSelecionada * compraProdutoDisplay.preco
       }
     }
-    //atualizar com infos da tela
-    this.compraProduto.quantidadeSelecionada = compraProdutoDisplay.quantidadeSelecionada;
-    this.compraProduto.subtotal = compraProdutoDisplay.quantidadeSelecionada * compraProdutoDisplay.preco;
-    this.enviarEntidadeCompraProduto();
+    this.enviarEntidadeCompraProduto(this.compraProduto);
   }
 
-  private enviarEntidadeCompraProduto() {
+  private enviarEntidadeCompraProduto(compraProduto: CompraProdutos) {
     if (this.IsEditMode) {
-      this.compraProdutoService.editarCompraProduto(this.compraProduto).subscribe(data =>
+      this.compraProdutoService.editarCompraProduto(this.compraProduto).subscribe(data => {
+        this.atualizaValorTotal()
         console.log("Editado")
+      }
       );
     }
     else {
@@ -266,7 +268,7 @@ export class ComprasComponent {
     })
     //seleciona apenas os que tem mais de uma unidade selecionada
     let finalizaCompra = this.comprasProdutos.filter(function (compraProduto: any) {
-      return compraProduto.quantidadeSelecionada > 0
+      return compraProduto.quantidadeSelecionada > 0 && compraProduto.idCompra == localStorage.getItem("compra")
     })
 
     //calcula valor final para montar entidade Compras
@@ -296,7 +298,9 @@ export class ComprasComponent {
   openDialog() {
 
     this.dialogRef = this.dialog.open(DialogComprasComponent, {
-      data: { compra: this.compra }
+      data: {
+        compra: this.compra
+      }
     })
 
 
@@ -339,6 +343,21 @@ export class ComprasComponent {
           this.route.navigate(["/home"]);
         }
       }
+    })
+  }
+  atualizaValorTotal() {
+    this.compraProdutoService.obterCompraProdutos().subscribe((data) => {
+      this.comprasProdutos = data;
+      return this.comprasProdutos;
+    })
+    //seleciona apenas os que tem mais de uma unidade selecionada
+    let finalizaCompra = this.comprasProdutos.filter(function (compraProduto: any) {
+      return compraProduto.quantidadeSelecionada > 0 && compraProduto.idCompra == localStorage.getItem("compra")
+    })
+    let valorTotal = 0;
+    this.compra.valorTotal = 0;
+    finalizaCompra.forEach((compraProduto) => {
+      return this.compra.valorTotal = valorTotal + compraProduto.subtotal;
     })
   }
 

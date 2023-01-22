@@ -28,7 +28,6 @@ import { MatCardModule } from '@angular/material/card';
 import { DialogComprasComponent } from './pages/compras/dialog-compras/dialog-compras.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ShowComprasComponent } from './pages/compras/show-compras/show-compras.component';
 
 
 @NgModule({
@@ -41,7 +40,6 @@ import { ShowComprasComponent } from './pages/compras/show-compras/show-compras.
     DialogUsuarioComponent,
     ComprasComponent,
     DialogComprasComponent,
-    ShowComprasComponent,
   ],
   imports: [
     BrowserModule,

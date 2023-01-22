@@ -47,3 +47,9 @@ table {
 .btn-confirmar {
     background-color: #10D2B8;
 }
+
+.linha-total {
+    font-weight: bold;
+    line-height: 1.5;
+    word-spacing: 1.2;
+}

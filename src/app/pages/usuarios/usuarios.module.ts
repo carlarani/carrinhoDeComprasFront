@@ -8,11 +8,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { DetalheUsuarioComponent } from './detalhe-usuario/detalhe-usuario.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @NgModule({
-  declarations: [UsuariosComponent, DetalheUsuarioComponent],
+  declarations: [UsuariosComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -22,7 +22,8 @@ import { DetalheUsuarioComponent } from './detalhe-usuario/detalhe-usuario.compo
     MatIconModule,
     MatTableModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatExpansionModule
   ]
 })
 export class UsuariosModule { }

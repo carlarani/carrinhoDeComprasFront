@@ -8,6 +8,7 @@
             <table *ngIf="comprasProdutosDisplay.length>0">
                 <thead>
                     <th>Produtos</th>
+                    <th>Preço</th>
                     <th>Quantidade</th>
                     <th>Subtotal</th>
                     <th></th>
@@ -15,9 +16,11 @@
                 <tbody>
                     <tr *ngFor="let compraProdutoDisplay of comprasProdutosDisplay">
                         <td>{{compraProdutoDisplay.nome}}</td>
+                        <td>{{compraProdutoDisplay.preco | currency:'BRL'}}</td>
                         <td><input [min]="1" [max]="compraProdutoDisplay.quantidade" type="number"
                                 (change)="atualizarCompraProduto(compraProdutoDisplay)"
                                 [(ngModel)]="compraProdutoDisplay.quantidadeSelecionada"></td>
+
                         <td>{{compraProdutoDisplay.preco*compraProdutoDisplay.quantidadeSelecionada | currency:'BRL'}}
                         </td>
                         <td><button (click)="deletarProdutoCompra(compraProdutoDisplay.id)" mat-button>
@@ -26,9 +29,9 @@
                                 </mat-icon>
                             </button></td>
                     </tr>
-                    <tr>
-                        <td [colSpan]="2">Total</td>
-                        <td>{{valorTotal | currency:'BRL'}}</td>
+                    <tr class="linha-total">
+                        <td [colSpan]="3" align="right">Total </td>
+                        <td [(ngModel)]="data.compra.valorTotal">{{data.compra.valorTotal | currency:'BRL'}}</td>
                         <td></td>
                     </tr>
                 </tbody>
