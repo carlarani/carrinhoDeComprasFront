@@ -3,7 +3,7 @@
   <button id="btn-novo" mat-raised-button (click)="OnAddClick()">Novo</button>
 
   <input matInput id="filtro" [(ngModel)]="ProdutoFiltro" (keyup)="filterFn()" placeholder="Pesquise produto pelo nome">
-
+  <span>Total de resultados: {{produtosComFiltro.length}}</span>
   <!--Tabela-->
   <table mat-table [dataSource]="produtosComFiltro" class="mat-elevation-z8" id="table-all" matSort>
 

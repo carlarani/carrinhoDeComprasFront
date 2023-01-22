@@ -1,4 +1,8 @@
-.example-container{
+.container {
+    background-image: url("src\app\media\groceries-bag-2.jpg");
+}
+
+.example-container {
     width: 500px;
     padding: 10px;
     display: flex;
@@ -6,10 +10,16 @@
     align-items: center;
 }
 
-.dialog-form{
+.dialog-form {
     width: 80%;
 }
 
-.dialog-form-100{
+.dialog-form-100 {
     width: 100%;
+}
+
+button {
+    background-color: lightskyblue;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+
 }

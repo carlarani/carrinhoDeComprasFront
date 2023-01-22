@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Guid } from 'guid-typescript';
 import Compra from 'src/app/model/Compra';
@@ -16,7 +16,8 @@ import { DialogComprasComponent } from './dialog-compras/dialog-compras.componen
 @Component({
   selector: 'app-compras',
   templateUrl: './compras.component.html',
-  styleUrls: ['./compras.component.css']
+  styleUrls: ['./compras.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ComprasComponent {
   quantidadeSelecionada: number = 0;
@@ -31,11 +32,12 @@ export class ComprasComponent {
   disableForm: boolean = false;
   ProdutoFiltro: string = "";
   IsEditMode: boolean = false;
-  IsUpdateMode: boolean=false;
+  IsUpdateMode: boolean = false;
 
-  paginaSelecionada : number = 1 ;
+  paginaSelecionada: number = 1;
   ultimaPagina!: number;
-  resultadosPorPágina: number=20;
+  resultadosPorPágina: number = 100;
+  paginaAtual!: number;
 
   constructor(
     private produtoService: ProdutoService,
@@ -44,7 +46,7 @@ export class ComprasComponent {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogComprasComponent>,
   ) {
-    
+
   }
 
   ngOnInit(): void {
@@ -58,51 +60,46 @@ export class ComprasComponent {
 
   private criarCompra() {
     let idComprador = localStorage.getItem("user");
-    this.compra = new Compra(0, idComprador? idComprador: "");
-    this.compraService.adicionarCompra(this.compra).subscribe(data=>
+    this.compra = new Compra(0, idComprador ? idComprador : "");
+    this.compraService.adicionarCompra(this.compra).subscribe(data =>
       console.log("Compra iniciada com sucesso"));
     return this.compra;
   }
 
-  private carregarTabelaProdutos(IsUpdateMode:boolean) {
+  private carregarTabelaProdutos(IsUpdateMode: boolean) {
 
     this.produtoService.obterProdutosComPaginacao(this.paginaSelecionada, this.resultadosPorPágina).subscribe(data => {
       this.produtos = data;
       // console.log(this.produtos);  
-      if(IsUpdateMode)
-      {
+      if (IsUpdateMode) {
         // console.log("IF");
-        
+
         this.atualizarEntidadesCompraProdutosDisplay(this.produtos);
       }
-      else{
+      else {
         // console.log("Else");
-        
+
         this.carregarTabelaLojaECriarEntidadeCompraProdutoDisplay(this.produtos);
       }
 
       return this.produtos;
     })
   }
-  
+
   atualizarEntidadesCompraProdutosDisplay(produtos: Produto[]) {
 
-    for(let i=0; i<produtos.length;i++)
-    {
-      this.compraProdutoService.obterCompraProdutosPorIdCompra(this.compra.id).subscribe((data)=>
-      {
+    for (let i = 0; i < produtos.length; i++) {
+      this.compraProdutoService.obterCompraProdutosPorIdCompra(this.compra.id).subscribe((data) => {
         this.comprasProdutos = data;
-        this.comprasProdutos.forEach((compraProduto)=>
-        {
-          if(this.listaCompraProdutoDisplay[i].idProduto==compraProduto.idProduto)
-          {
-            this.listaCompraProdutoDisplay[i].quantidadeSelecionada=compraProduto.quantidadeSelecionada;
-            this.listaCompraProdutoDisplayComFiltro[i].quantidadeSelecionada=compraProduto.quantidadeSelecionada;
-            this.listaCompraProdutoDisplay[i].subtotal=compraProduto.subtotal;
-            this.listaCompraProdutoDisplayComFiltro[i].subtotal=compraProduto.subtotal;
+        this.comprasProdutos.forEach((compraProduto) => {
+          if (this.listaCompraProdutoDisplay[i].idProduto == compraProduto.idProduto) {
+            this.listaCompraProdutoDisplay[i].quantidadeSelecionada = compraProduto.quantidadeSelecionada;
+            this.listaCompraProdutoDisplayComFiltro[i].quantidadeSelecionada = compraProduto.quantidadeSelecionada;
+            this.listaCompraProdutoDisplay[i].subtotal = compraProduto.subtotal;
+            this.listaCompraProdutoDisplayComFiltro[i].subtotal = compraProduto.subtotal;
           }
         })
-      return this.listaCompraProdutoDisplayComFiltro;
+        return this.listaCompraProdutoDisplayComFiltro;
       })
     }
   }
@@ -148,12 +145,11 @@ export class ComprasComponent {
     //mudar valor de quantidade selecionada
     compraProdutoDisplay.quantidadeSelecionada++;
     //checar se a quantidade selecionada é maior que o estoque
-    if(compraProdutoDisplay.quantidadeSelecionada>compraProdutoDisplay.quantidade)
-    {
+    if (compraProdutoDisplay.quantidadeSelecionada > compraProdutoDisplay.quantidade) {
       alert("Quantidade indisponível!");
-      compraProdutoDisplay.quantidadeSelecionada=compraProdutoDisplay.quantidade
+      compraProdutoDisplay.quantidadeSelecionada = compraProdutoDisplay.quantidade
     }
-    
+
 
     //chamar montar entidade ProdutoCompra
     this.checarCompraProdutoExiste(compraProdutoDisplay); //tenho a entidade compra produto já verificada se existe entidade (id produto) naquela compra )idCompra.
@@ -193,21 +189,20 @@ export class ComprasComponent {
 
     let compraProdutoExistente = this.comprasProdutos.find((compraProduto) => {
       return compraProduto.idCompra ==
-      compraProdutoDisplay.idCompra
-      && compraProduto.idProduto ==
-      compraProdutoDisplay.idProduto
+        compraProdutoDisplay.idCompra
+        && compraProduto.idProduto ==
+        compraProdutoDisplay.idProduto
     });
-    
-    this.compraProduto = (compraProdutoExistente)? compraProdutoExistente: this.compraProduto;
 
-    if(compraProdutoDisplay.quantidadeSelecionada==0)
-    {
-      this.compraProdutoService.deletarCompraProduto(this.compraProduto.id).subscribe(data=>
-         console.log("Deletado"));
+    this.compraProduto = (compraProdutoExistente) ? compraProdutoExistente : this.compraProduto;
+
+    if (compraProdutoDisplay.quantidadeSelecionada == 0) {
+      this.compraProdutoService.deletarCompraProduto(this.compraProduto.id).subscribe(data =>
+        console.log("Deletado"));
     }
-    else{
+    else {
       this.IsEditMode = true;
-      this.montarEntidadeCompraProduto(this.IsEditMode, compraProdutoDisplay, (compraProdutoExistente?.id)? compraProdutoExistente.id:"")
+      this.montarEntidadeCompraProduto(this.IsEditMode, compraProdutoDisplay, (compraProdutoExistente?.id) ? compraProdutoExistente.id : "")
     }
   }
 
@@ -229,7 +224,7 @@ export class ComprasComponent {
     }
     //atualizar com infos da tela
     this.compraProduto.quantidadeSelecionada = compraProdutoDisplay.quantidadeSelecionada;
-    this.compraProduto.subtotal = compraProdutoDisplay.quantidadeSelecionada*compraProdutoDisplay.preco;
+    this.compraProduto.subtotal = compraProdutoDisplay.quantidadeSelecionada * compraProdutoDisplay.preco;
     this.enviarEntidadeCompraProduto();
   }
 
@@ -258,72 +253,70 @@ export class ComprasComponent {
 
 
   abrirCarrinho() {
-  
-        this.compraProdutoService.obterCompraProdutos().subscribe((data)=>
-        {
-          this.comprasProdutos = data;
-          return this.comprasProdutos;
-        })
-         //seleciona apenas os que tem mais de uma unidade selecionada
-        let finalizaCompra = this.comprasProdutos.filter(function(compraProduto:any){
-          return compraProduto.quantidadeSelecionada>0
-        })
-    
-//calcula valor final para montar entidade Compras
-          this.calculaValorFinal(finalizaCompra)
+
+    this.compraProdutoService.obterCompraProdutos().subscribe((data) => {
+      this.comprasProdutos = data;
+      return this.comprasProdutos;
+    })
+    //seleciona apenas os que tem mais de uma unidade selecionada
+    let finalizaCompra = this.comprasProdutos.filter(function (compraProduto: any) {
+      return compraProduto.quantidadeSelecionada > 0
+    })
+
+    //calcula valor final para montar entidade Compras
+    this.calculaValorFinal(finalizaCompra)
   }
 
-private calculaValorFinal(finalizaCompra: CompraProdutos[]){
-  let valorTotal = 0;
-  finalizaCompra.forEach((compraProduto)=>
-  {
-    return valorTotal=valorTotal+compraProduto.subtotal;
-  })
-  this.montarEntidadeCompra(finalizaCompra, valorTotal)
-}
+  private calculaValorFinal(finalizaCompra: CompraProdutos[]) {
+    let valorTotal = 0;
+    finalizaCompra.forEach((compraProduto) => {
+      return valorTotal = valorTotal + compraProduto.subtotal;
+    })
+    this.montarEntidadeCompra(finalizaCompra, valorTotal)
+  }
 
   private montarEntidadeCompra(finalizaCompra: CompraProdutos[], valorTotal: number) {
     let idComprador = localStorage.getItem("user");
-      this.compra = {
-        id:this.compra.id,
-        valorTotal: valorTotal, 
-        idComprador: idComprador?idComprador:"", 
-        status:"Rascunho"};
-      localStorage.setItem("compra", this.compra.id);
-      this.compraService.editarCompra(this.compra);
-      this.openDialog();
-     }
+    this.compra = {
+      id: this.compra.id,
+      valorTotal: valorTotal,
+      idComprador: idComprador ? idComprador : "",
+      status: "Rascunho"
+    };
+    localStorage.setItem("compra", this.compra.id);
+    this.compraService.editarCompra(this.compra);
+    this.openDialog();
+  }
 
-     openDialog(){
+  openDialog() {
 
-      this.dialogRef = this.dialog.open(DialogComprasComponent, {
-        data: {compra : this.compra}
+    this.dialogRef = this.dialog.open(DialogComprasComponent, {
+      data: { compra: this.compra }
     })
 
 
-      return this.dialogRef.afterClosed()
+    return this.dialogRef.afterClosed()
       .subscribe(res => {
-        this.IsUpdateMode=true;
+        this.IsUpdateMode = true;
         this.carregarTabelaProdutos(this.IsUpdateMode);
       })
-     }
+  }
 
-    AddPg(){
-      this.paginaSelecionada = (this.paginaSelecionada>=this.ultimaPagina)? this.ultimaPagina: ++this.paginaSelecionada;
-      this.carregarTabelaProdutos(this.IsUpdateMode);
+  AddPg() {
+    this.paginaSelecionada = (this.paginaSelecionada >= this.ultimaPagina) ? this.ultimaPagina : ++this.paginaSelecionada;
+    this.carregarTabelaProdutos(this.IsUpdateMode);
+  }
+
+
+  definirUltimaPagina() {
+    this.paginaAtual = this.listaCompraProdutoDisplayComFiltro.length / this.resultadosPorPágina;
+    this.produtoService.obterProdutos().subscribe(data => {
+      let produtosFiltrados = data.filter(data =>
+        data.nome.includes(this.ProdutoFiltro))
+      this.ultimaPagina = produtosFiltrados.length / this.resultadosPorPágina;
+      this.ultimaPagina = produtosFiltrados.length % this.resultadosPorPágina > 0 ? ++this.ultimaPagina : this.ultimaPagina;
+      return this.ultimaPagina;
     }
-
-
-    definirUltimaPagina()
-    {
-      this.produtoService.obterProdutos().subscribe(data=>
-        {
-          let produtosFiltrados= data.filter(data =>
-            data.nome.includes(this.ProdutoFiltro))
-            this.ultimaPagina = produtosFiltrados.length/this.resultadosPorPágina;
-            this.ultimaPagina = produtosFiltrados.length%this.resultadosPorPágina>0? ++this.ultimaPagina : this.ultimaPagina;
-            return this.ultimaPagina;
-        }
-      )
-    }
+    )
+  }
 }

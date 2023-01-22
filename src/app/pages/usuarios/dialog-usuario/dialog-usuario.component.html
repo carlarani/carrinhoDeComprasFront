@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>{{dialogTitleUsuario}}</h1>
+<div class="container">
+  <h1 mat-dialog-title>{{dialogTitleUsuario}}</h1>
   <div class="example-container">
     <form class="dialog-form" [formGroup]="addUsuarioForm">
       <div *ngIf="data.disableFormUsuario" class="dialog-form-100">
@@ -7,37 +8,38 @@
           <input matInput formControlName="id" [(ngModel)]="data.usuario.id">
         </mat-form-field>
       </div>
-        <div class="dialog-form-100">
-          <mat-form-field class="dialog-form-100" appearance="fill">
-            <mat-label>Nome</mat-label>
-            <input matInput formControlName="nome" [(ngModel)]="data.usuario.nome">
-          </mat-form-field>
-        </div>
-        <div class="dialog-form-100">
-          <mat-form-field class="dialog-form-100" appearance="fill">
-            <mat-label>E-mail</mat-label>
-            <input matInput formControlName="email" [(ngModel)]="data.usuario.email">
-          </mat-form-field>
-        </div>
-        <div class="dialog-form-100">
-          <mat-form-field class="dialog-form-100" appearance="fill">
-            <mat-label>Senha</mat-label>
-            <input matInput type="password" formControlName="senha" [(ngModel)]="data.usuario.senha">
-          </mat-form-field>
-          </div>
-        <div class="dialog-form-100">
+      <div class="dialog-form-100">
         <mat-form-field class="dialog-form-100" appearance="fill">
-          <mat-label>Role</mat-label>
-          <select matNativeControl required>
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome" [(ngModel)]="data.usuario.nome">
+        </mat-form-field>
+      </div>
+      <div class="dialog-form-100">
+        <mat-form-field class="dialog-form-100" appearance="fill">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" [(ngModel)]="data.usuario.email">
+        </mat-form-field>
+      </div>
+      <div class="dialog-form-100">
+        <mat-form-field class="dialog-form-100" appearance="fill">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" formControlName="senha" [(ngModel)]="data.usuario.senha">
+        </mat-form-field>
+      </div>
+      <div class="dialog-form-100">
+        <mat-form-field class="dialog-form-100" appearance="fill">
+          <mat-label>Perfil</mat-label>
+          <select formControlName="role" [(ngModel)]="data.usuario.role" matNativeControl>
             <option value="comprador">Comprador</option>
             <option value="vendedor">Vendedor</option>
-            <option value="admin">Admin</option>
+            <option value="admin">Administrador</option>
           </select>
-          </mat-form-field>
+        </mat-form-field>
       </div>
     </form>
   </div>
-<div mat-dialog-actions>
-  <button *ngIf="!data.disableFormUsuario" mat-stroked-button (click)="salvar()" color="primary">Salvar</button>
-  <button mat-button mat-dialog-close>Close</button>
+  <div mat-dialog-actions>
+    <button *ngIf="!data.disableFormUsuario" mat-stroked-button (click)="salvar()" color="primary">Salvar</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
 </div>

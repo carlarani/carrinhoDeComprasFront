@@ -1,3 +1,4 @@
+import { MatButtonModule } from '@angular/material/button';
 import { UsuarioRoutingModule } from './usuarios-routing.module';
 import { UsuariosComponent } from './usuarios.component';
 import { NgModule } from '@angular/core';
@@ -8,7 +9,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { DetalheUsuarioComponent } from './detalhe-usuario/detalhe-usuario.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -18,11 +18,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ReactiveFormsModule,
     UsuarioRoutingModule,
     MatFormFieldModule,
-    MatDialogModule, 
+    MatDialogModule,
     MatIconModule,
     MatTableModule,
-    FormsModule, 
-    MatPaginatorModule
+    FormsModule,
+    MatButtonModule
   ]
 })
 export class UsuariosModule { }

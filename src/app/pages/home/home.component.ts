@@ -16,16 +16,18 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    setInterval(() => {
-      if (this.role == "comprador") {
-        this.blocoComprador = true
-      } else if (this.role == "vendedor") {
-        this.blocoVendedor == true;
-      } else if (this.role == "admin") {
-        this.blocoAdmin = true;
-        this.blocoVendedor = true;
-        this.blocoComprador = true
-      }
-    }, 3000)
+    if (this.blocoComprador == false && this.blocoVendedor == false && this.blocoAdmin == false) {
+      setInterval(() => {
+        if (this.role == "comprador") {
+          this.blocoComprador = true
+        } else if (this.role == "vendedor") {
+          this.blocoVendedor == true;
+        } else if (this.role == "admin") {
+          this.blocoAdmin = true;
+          this.blocoVendedor = true;
+          this.blocoComprador = true
+        }
+      }, 1000)
+    }
   }
 }

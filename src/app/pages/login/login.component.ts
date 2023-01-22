@@ -32,7 +32,9 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.validate();
+    setInterval(() => {
+      this.validate();
+    }, 1000)
   }
 
 
@@ -43,13 +45,11 @@ export class LoginComponent implements OnInit {
     this.token = (Xtoken != null) ? Xtoken : "";
     this.authService.validaLogin(this.token).subscribe({
       next: (retorno) => {
-        console.log(retorno);
-
+        // console.log(retorno);
         this.route.navigate(["/home"]);
       },
       error: (error) => {
-        if (error.status == 200)
-          this.route.navigate(['/home']);
+        this.hasError = true;
 
       }
     }
