@@ -146,7 +146,7 @@ export class ComprasComponent {
   }
 
   Add(compraProdutoDisplay: CompraProdutoDisplay) {
-    this.checarSeCompraStatusERascunho();
+    // this.checarSeCompraStatusERascunho();
     //mudar valor de quantidade selecionada
     compraProdutoDisplay.quantidadeSelecionada++;
     //checar se a quantidade selecionada é maior que o estoque
@@ -189,7 +189,7 @@ export class ComprasComponent {
   }
 
   Remove(compraProdutoDisplay: CompraProdutoDisplay) {
-    this.checarSeCompraStatusERascunho();
+    // this.checarSeCompraStatusERascunho();
 
     --compraProdutoDisplay.quantidadeSelecionada;
 
@@ -216,9 +216,6 @@ export class ComprasComponent {
     if (IsEditMode) {
       this.compraProdutoService.obterCompraProduto(idCompraProduto).subscribe(data => {
         this.compraProduto = data;
-        this.compraProduto.quantidadeSelecionada = compraProdutoDisplay.quantidadeSelecionada;
-        this.compraProduto.subtotal = compraProdutoDisplay.quantidadeSelecionada * compraProdutoDisplay.preco;
-        return this.compraProduto
       });
     }
     else {
@@ -230,19 +227,21 @@ export class ComprasComponent {
         subtotal: compraProdutoDisplay.quantidadeSelecionada * compraProdutoDisplay.preco
       }
     }
+    this.compraProduto.quantidadeSelecionada = compraProdutoDisplay.quantidadeSelecionada;
+    this.compraProduto.subtotal = compraProdutoDisplay.quantidadeSelecionada * compraProdutoDisplay.preco;
     this.enviarEntidadeCompraProduto(this.compraProduto);
   }
 
   private enviarEntidadeCompraProduto(compraProduto: CompraProdutos) {
     if (this.IsEditMode) {
-      this.compraProdutoService.editarCompraProduto(this.compraProduto).subscribe(data => {
+      this.compraProdutoService.editarCompraProduto(compraProduto).subscribe(data => {
         this.atualizaValorTotal()
         console.log("Editado")
       }
       );
     }
     else {
-      this.compraProdutoService.adicionarCompraProduto(this.compraProduto).subscribe(data =>
+      this.compraProdutoService.adicionarCompraProduto(compraProduto).subscribe(data =>
         console.log("Adicionado")
       );
     }
@@ -260,7 +259,9 @@ export class ComprasComponent {
 
 
   abrirCarrinho() {
-    this.checarSeCompraStatusERascunho();
+    // setTimeout(() =>
+    //   this.checarSeCompraStatusERascunho(), 3000
+    // )
 
     this.compraProdutoService.obterCompraProdutos().subscribe((data) => {
       this.comprasProdutos = data;
@@ -272,16 +273,16 @@ export class ComprasComponent {
     })
 
     //calcula valor final para montar entidade Compras
-    this.calculaValorFinal(finalizaCompra)
+    this.montarEntidadeCompra(finalizaCompra, 0)
   }
 
-  private calculaValorFinal(finalizaCompra: CompraProdutos[]) {
-    let valorTotal = 0;
-    finalizaCompra.forEach((compraProduto) => {
-      return valorTotal = valorTotal + compraProduto.subtotal;
-    })
-    this.montarEntidadeCompra(finalizaCompra, valorTotal)
-  }
+  // private calculaValorFinal(finalizaCompra: CompraProdutos[]) {
+  //   let valorTotal = 0;
+  //   finalizaCompra.forEach((compraProduto) => {
+  //     return valorTotal = valorTotal + compraProduto.subtotal;
+  //   })
+  //   this.montarEntidadeCompra(finalizaCompra, valorTotal)
+  // }
 
   private montarEntidadeCompra(finalizaCompra: CompraProdutos[], valorTotal: number) {
     let idComprador = localStorage.getItem("user");
@@ -329,22 +330,22 @@ export class ComprasComponent {
     )
   }
 
-  checarSeCompraStatusERascunho() {
-    let compraId = localStorage.getItem("compra");
-    this.compraService.obterCompra(compraId).subscribe(data => {
-      let compra = data;
-      console.log(compra.status);
-      console.log(data.status);
-      if (compra.status != "Rascunho") {
-        alert("Esta compra não permite mais edições");
-        if (confirm("Deseja iniciar nova compra?")) {
-          window.location.reload()
-        } else {
-          this.route.navigate(["/home"]);
-        }
-      }
-    })
-  }
+  // checarSeCompraStatusERascunho() {
+  //   let compraId = localStorage.getItem("compra");
+  //   this.compraService.obterCompra(compraId).subscribe(data => {
+  //     let compra = data;
+  //     // console.log(compra.status);
+  //     // console.log(data.status);
+  //     if (compra.status != "Rascunho") {
+  //       alert("Esta compra não permite mais edições");
+  //       if (confirm("Deseja iniciar nova compra?")) {
+  //         window.location.reload()
+  //       } else {
+  //         this.route.navigate(["/home"]);
+  //       }
+  //     }
+  //   })
+  // }
   atualizaValorTotal() {
     this.compraProdutoService.obterCompraProdutos().subscribe((data) => {
       this.comprasProdutos = data;

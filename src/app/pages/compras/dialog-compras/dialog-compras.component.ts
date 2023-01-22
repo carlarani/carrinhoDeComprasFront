@@ -44,7 +44,6 @@ export class DialogComprasComponent implements OnInit {
 
   ngOnInit() {
     // console.log("INIT");
-    this.data.compra.valorTotal = 0;
     this.buscarNomeUsuario();
     this.buscarProdutosDaCompra();
   }
@@ -102,7 +101,7 @@ export class DialogComprasComponent implements OnInit {
         }
         this.comprasProdutosDisplay.push(this.compraProdutoDisplay);
         this.montarSubTitulo();
-        console.log(this.compraProdutoDisplay);
+        // console.log(this.compraProdutoDisplay);
       });
     }
     )
@@ -178,7 +177,7 @@ export class DialogComprasComponent implements OnInit {
   }
 
   atualizarStatusCompra(compra: Compra) {
-    console.log(compra)
+    // console.log(compra)
     compra.status = "Confirmada";
     this.compraService.editarCompra(compra).subscribe((data) => {
       alert("Compra confirmada com sucesso");
@@ -188,7 +187,7 @@ export class DialogComprasComponent implements OnInit {
   }
 
   atualizarEstoquesProdutos(idCompra: string) {
-    console.log(idCompra);
+    // console.log(idCompra);
     let produtosCompra: CompraProduto[] = [];
     let produtos: Produto[] = [];
     this.produtoCompraService.obterCompraProdutosPorIdCompra(idCompra).subscribe((data) => {
