@@ -1,16 +1,12 @@
 # Carrinho
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
+## 1. Requisitos gerais
+### 1.1 Requisitos gerais: Cadastro
 
-## Informações úteis
-
-Design de inspiração : https://www.figma.com/file/8uovzyDAjeEB6MsHv0RrzH/Landing-Page%3A-%23LaylaMoNow!-(Community)?node-id=38%3A48&t=SWFyY1iEHsRpvVPu-0
-
-## 1.0 Requisitos gerais: Cadastro
 
 Ao acessar a tela de inicial (login), há uma mensagem abaixo do formulário que diz para clicar ali caso não tenha cadastro. Nesta botão, o usuário será redirecionado para a tela de cadastro que consiste em um formulário com nome email e senha. Ao clicar para criar a conta, a aplicação valida se este email já não foi utilizado por outro usuário. Caso o email já conste em outro usuário, aparece um alert avisando o usuário e mantem ele nesta tela para adequações. Quando o email fornecido não é encontrado na base de cadastro, é dado um alert de sucesso e é redirecionado de volta para a tela de login. Neste momento o usuário foi cadastrado no back-end com perfil padrão inicial de comprador. 
 
-## 1.1 Requisitos gerais: Login
+### 1.2 Requisitos gerais: Login
 
 Ao acessar a tela de inicial (login), há um formulário com campo email e senha para ser preenchido pelo usuário. Ao clicar no Entrar, essas informações são comparadas com as fornecidas anteriormente pelo usuário (no momento do cadastro). Caso não sejam validados, um alert aparece informando o usuário. Quando validados, um token JWT será gerado no back e enviado ao front e armazenado no local storage. Além do token, também é armazenado o id de usuário e o perfil (admin, vendedor ou comprador).
 Nesta tela também há uma função rodando atraves de um set Interval para buscar token no local storage e tentar validá-lo. Esta função serve para validar automaticamente um usuário que volte para a tela de login sem necessidade de preencher os dados novamente caso o token dele ainda esteja dentro do prazo de validade (12 horas).  Esta função de validação de token busca ele no localstorage e tenta valida-lo no back. Se não validar, mantem na tela(sem aviso ao usuário pois ele pode já ter preenchido os dados de login ou não neste momento). Se validar é redirecionado para a home. 
@@ -29,12 +25,13 @@ email: comprador@teste.com
 senha: comprador
 
 
-## 1.2 Requisitos gerais: Home
+### 1.3 Requisitos gerais: Home
 
 Ao acessar a home, há um menu de botões que se adequa ao perfil de cada usuário. Sendo que compradores terão acesso apenas a Loja neste momento. Vendedores terão acesso ao Gerenciar Produtos. E administradores terão acesso aos dois perfis anteriores e ao Gerenciar Usuários. 
 Neste tela também aparecem no header dois botões que ficarão fixos enquanto o usuário estiver logado: um a esquerda da tela para ser redirecionado a Home e outro a direita para efetuar o logout. O botão de logout apaga os item que foram armazenados na local storage (token, role e id do usuário) e o redireciona para a tela de login. 
 
-## 2.0 Requisitos cliente/comprador: Loja
+## 2. Requisitos cliente/comprador
+### 2.1 Requisitos cliente/comprador: Loja
 
 perfil comprador
 email: comprador@teste.com
@@ -49,7 +46,7 @@ Ao deslizar a tela para baixo, será possível ver a contagem de páginas de pro
 
 Ao terminar a seleção dos produtos desejados, o cliente voltará ao topo da tela e clicará no carrinho de compras. 
 
-## 2.1 Requisitos cliente/comprador: Carrinho de compras
+### 2.2 Requisitos cliente/comprador: Carrinho de compras
 
 Caso o usuário tenta acessar o carrinho sem ter adicionado nenhum produto a sua compra, as mensagens serão adequadas para informá-lo que o carrinho está vazio e apresentará um único botão para que ele inicie suas compras voltando a tela da loja. 
 
@@ -57,7 +54,8 @@ Quando já tiver itens adicionados e o carrinho for clicado, será aberto o carr
 
 Neste ponto, terminadas as edições e conferências, o cliente pode continuar comprando o que o levará de volta a tela da loja e continuara a jornada desta mesma compra. Pode limpar o carrinho, o excluirá todos os itens adicionados na compra até o momento. Ou confirmar a sua compra - o que salvará essas informações de em status de compra confirmada o que já não permitirá em nenhum momento edição nos itens a partir deste status. Apenas edições de status serão possíveis neste objeto a partir daqui (pagamento confirmado e finalizada).
 
-## 3.0 Requisitos vendedor: Listagem de produtos
+## 3. Requisitos vendedor
+### 3.1 Requisitos vendedor: Listagem de produtos
 
 perfil vendedor
 email: vendedor@teste.com
@@ -67,11 +65,12 @@ Quando o login tem perfil de vendedor, na home aparecerá o botão Gerenciar pro
 Em todos os momentos de criação, edição ou deleção, a lista é atualizada automaticamente. 
 Nesta tela todos os 1000 produtos são carregados de uma só vez, o que permite melhor usabilidade do campo de busca por nome do produto. 
 
-## 3.1 Requisitos vendedor: Cadastro de produtos
+### 3.2 Requisitos vendedor: Cadastro de produtos
 
 Na tela de listagem de produtos há um botão para adicionar novos produtos no canto superior direito da tela, que abrirá o mesmo dialog que abre ao "ver detalhes" e "editar", com adequações de titulo e campos para criação de um novo produto na lista.
 
-## 4.0 Perfil admin: Listagem de usuários
+## 4. Perfil admin:
+### 4.1 Perfil admin: Listagem de usuários
 
 perfil administrador
 email: admin@teste.com
@@ -81,12 +80,12 @@ Além das funcionalidades e telas disponíveis para os perfis de comprador e ven
 A tela de gerenciar usuários é similar a tela de listagem de produtos. Traz os usuários existentes em tabela com nome, email, perfil de acesso e novamento os três botões em cada linha: ver detalhes, editar e remover. 
 O funcionamento dos botões da tabela desta tela são similares aos da tela de produtos com única diferença que o campo pesquisa busca o conteúdo tanto no campo nome quanto no campo perfil e foi feita a adequação dos campos e botões.
 
-## 4.1 Perfil admin: Cadastro de usuários
+### 4.2 Perfil admin: Cadastro de usuários
 
 Na tela de listagem de usuários é possível ver um botão também para adicionar novos usuários. Ao clicar nele é aberto o dialog com devidas adequações para preenchimento das informações e atualização da tabela da tela anterior acontece automaticamente ao fechar o dialog. 
 Importante lembrar que nesta tela, acessada pelo perfil admin, é o unico caminho para gerar usuário com perfil diferente de comprador. Na tela de cadastro todos os usuários gerados recebem perfil de comprador que podem posteriormente ser alterado por alguem que possua perfil admin. Sugestão de continuidade de desenvolvimento* seria incluir filtro para selecionar todos os usuários de determinado perfil.
 
-## 5.0 API/Back-End
+## 5. API/Back-End
 
 Foi desenvolvida uma WebAPI em C# (reposiório do gitHub : https://github.com/carlarani/carrinhoDeComprasBack). Esta API foi desenvolvida para os mesmos objetos que o front possui (usuario, produto, compra, compraProduto/ProdutoCompra). Algumas Models existentes no front não são conectadas com a API, como é o caso de CompraDisplay e CompraProdutoDisplay, que foram classes criadas para manipular informações apenas no front, utilizando como base uma combinação das informações do back das classes existentes e persistentes. 
 
@@ -94,11 +93,16 @@ A API usa como forma de armazenar os dados um Banco de dados Im Memory, o que si
 
 Os dados disponíveis para visualização e testes na aplicação estão sendo populados neste banco de dados im memory atraves de alguns arquivos json, também disponíveis no repositório da api/back. 
 
-
-
 *Estas são pontos de atenção / sugestões de próximos desenvolvimentos que seriam feitos para deixar a aplicação mais próxima a uma aplicação real.
 
-## Orientações do professor para o projeto *Carrinho de compras *
+
+## Informações úteis
+
+Design de inspiração : https://www.figma.com/file/8uovzyDAjeEB6MsHv0RrzH/Landing-Page%3A-%23LaylaMoNow!-(Community)?node-id=38%3A48&t=SWFyY1iEHsRpvVPu-0
+
+
+
+### Orientações do professor para o projeto *Carrinho de compras *
 
 Como maneira para nos aprofundarmos nos conceitos de angular, vamos fazer um carrinho de compras!
 
