@@ -96,6 +96,12 @@ Os dados disponíveis para visualização e testes na aplicação estão sendo p
 *Estas são pontos de atenção / sugestões de próximos desenvolvimentos que seriam feitos para deixar a aplicação mais próxima a uma aplicação real.
 
 
+##Próximos passos:
+1. Criação tela Minha Conta contendo dados pessoais do usuário logado, bloco com compras em andamento (status aguardando pagamento, preparação para entrega...) e bloco com históricos de compras já finalizadas (status finalizadas e canceladas).
+2. Criação de tela Gerenciar Compras na qual usuários com perfil admin possam consultar compras gerais e edição apenas de status para cancelada por exemplo. 
+3. Adaptações da tela Gerenciar produtos para que filtre os produtos apenas do vendedor em caso de perfil de vendedor ou deixe todos disponíveis no caso de perfil admin.
+4. Fazer tela de Gestão de Vendas para vendedores apresentar as vendas em andamento (status preparação para entrega, em rota de entrega, entregue e finalizadas em formato de KanBan.
+
 ## Informações úteis
 
 Design de inspiração : https://www.figma.com/file/8uovzyDAjeEB6MsHv0RrzH/Landing-Page%3A-%23LaylaMoNow!-(Community)?node-id=38%3A48&t=SWFyY1iEHsRpvVPu-0
