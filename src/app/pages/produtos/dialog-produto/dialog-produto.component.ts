@@ -47,15 +47,18 @@ export class DialogProdutoComponent {
   salvar() {
     if (this.data.produto.id == "235bd574-d661-43bd-a7b0-2328ca64fcfa") {
       this.data.produto.id = Guid.create().toString();
-      this.produtoService.adicionarProduto(this.data.produto).subscribe(res => {
-        alert("Adicionado com sucesso!");
-      });
-    } else {
-      this.produtoService.editarProduto(this.data.produto).subscribe(res => {
-        alert("Atualizado com sucesso!");
-      });
-    }
-    this.dialogRef.close();
-  }
+      this.produtoService.adicionarProduto(this.data.produto).subscribe({
+        next: (retorno) => {
+          alert("Adicionado com sucesso!");
+        },
+        error: (error) => {
+          // console.log(error);
 
+          if (error.status == 400)
+            alert("Falha no processo. Atente-se aos campos e use . para separar reais de centavos.");
+        }
+      })
+      this.dialogRef.close();
+    }
+  }
 }

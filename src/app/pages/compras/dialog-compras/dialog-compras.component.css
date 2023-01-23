@@ -3,8 +3,10 @@
     background-repeat: no-repeat;
     background-color: antiquewhite;
     width: 600px;
+    height: 400px;
     padding: 10px;
     color: black;
+    overflow: scroll;
 }
 
 .background-color {
